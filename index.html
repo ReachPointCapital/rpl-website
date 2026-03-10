@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reach Point Lab — Health Simplified</title>
+  <meta name="description" content="Reach Point Lab builds free, minimal, beautiful health apps for iOS. No paywalls. No complexity. Just clarity." />
+  <meta property="og:title" content="Reach Point Lab" />
+  <meta property="og:description" content="Free, minimal, beautiful health apps for iOS." />
+  <meta property="og:url" content="https://reachpointlab.com" />
+  <link rel="canonical" href="https://reachpointlab.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1B3A6B;
+      --navy-deep: #0D1E3A;
+      --navy-mid:  #122c56;
+      --silver: #A0A9B8;
+      --silver-light: #C8D0DC;
+      --white:  #F4F6F9;
+      --ink:    #07111F;
+      --accent: #A0A9B8;
+      --gold:   #C8A96E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--ink);
+      color: var(--white);
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── AMBIENT GLOW ── */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(27,58,107,0.35) 0%, transparent 70%);
+      top: -200px; left: -150px;
+    }
+    .glow-orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(160,169,184,0.08) 0%, transparent 70%);
+      bottom: 10%; right: -100px;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 24px 0;
+      transition: background 0.4s ease, border-color 0.4s ease;
+      border-bottom: 1px solid transparent;
+    }
+    header.scrolled {
+      background: rgba(7, 17, 31, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-color: rgba(160,169,184,0.1);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-text .reach {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .logo-text .lab {
+      font-family: 'Syne', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--silver);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    nav a {
+      font-family: 'Epilogue', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--silver);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--white); }
+    .nav-rpc {
+      font-family: 'Syne', sans-serif !important;
+      font-size: 11px !important;
+      letter-spacing: 0.14em !important;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border: 1px solid rgba(160,169,184,0.25);
+      border-radius: 100px;
+      transition: border-color 0.2s, color 0.2s !important;
+    }
+    .nav-rpc:hover {
+      border-color: rgba(160,169,184,0.6) !important;
+      color: var(--white) !important;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 100px;
+    }
+    .hero-content {
+      max-width: 700px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+    .eyebrow-dot {
+      width: 4px; height: 4px;
+      background: var(--navy);
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--silver), #6b7a8d);
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.35s forwards;
+    }
+    .hero h1 .accent-line {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(160,169,184,0.4);
+    }
+    .hero-sub {
+      margin-top: 32px;
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--silver);
+      line-height: 1.7;
+      max-width: 460px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.5s forwards;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 12px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.65s forwards;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      border: 1px solid rgba(160,169,184,0.18);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--silver-light);
+      background: rgba(27,58,107,0.12);
+    }
+    .badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--silver);
+      opacity: 0.6;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, rgba(160,169,184,0.25), transparent);
+      margin: 0 auto;
+    }
+
+    /* ── APPS SECTION ── */
+    .apps-section {
+      padding: 120px 0;
+    }
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(160,169,184,0.15);
+      max-width: 80px;
+    }
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .app-card {
+      position: relative;
+      padding: 48px 40px;
+      background: rgba(27,58,107,0.08);
+      border: 1px solid rgba(160,169,184,0.1);
+      transition: background 0.3s ease, border-color 0.3s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .app-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(27,58,107,0.3), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .app-card:hover { background: rgba(27,58,107,0.18); border-color: rgba(160,169,184,0.22); }
+    .app-card:hover::before { opacity: 1; }
+
+    .app-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: rgba(160,169,184,0.35);
+      margin-bottom: 32px;
+    }
+    .app-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .app-icon-wrap svg {
+      width: 28px;
+      height: 28px;
+    }
+    .app-card-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .app-card-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--silver);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 28px;
+    }
+    .app-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .app-status {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .status-live {
+      background: rgba(160,169,184,0.12);
+      color: var(--silver-light);
+      border: 1px solid rgba(160,169,184,0.2);
+    }
+    .status-soon {
+      background: rgba(27,58,107,0.3);
+      color: rgba(160,169,184,0.5);
+      border: 1px solid rgba(27,58,107,0.4);
+    }
+    .app-link {
+      font-size: 12px;
+      color: var(--silver);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .app-card:hover .app-link { opacity: 1; }
+    .app-link:hover { color: var(--white); }
+
+    /* Specific app tints */
+    .card-stool .app-icon-wrap { background: rgba(27,58,107,0.25); }
+    .card-fast  .app-icon-wrap { background: rgba(240,165,0,0.1); }
+    .card-lucid .app-icon-wrap { background: rgba(100,120,160,0.15); }
+
+    /* ── MANIFESTO ── */
+    .manifesto {
+      padding: 120px 0;
+      border-top: 1px solid rgba(160,169,184,0.08);
+    }
+    .manifesto-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .manifesto-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .manifesto-headline .dim { color: rgba(160,169,184,0.35); }
+    .manifesto-body {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--silver);
+      line-height: 1.8;
+    }
+    .manifesto-body p + p { margin-top: 16px; }
+    .manifesto-pillars {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .pillar {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .pillar-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--silver), transparent);
+      flex-shrink: 0;
+      margin-top: 4px;
+      opacity: 0.3;
+    }
+    .pillar-text strong {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+    .pillar-text span {
+      font-size: 13px;
+      color: var(--silver);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(160,169,184,0.1);
+      padding: 48px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-left {
+      font-size: 12px;
+      color: rgba(160,169,184,0.45);
+      line-height: 1.7;
+    }
+    .footer-left a {
+      color: rgba(160,169,184,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-left a:hover { color: var(--silver); }
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: 'Epilogue', sans-serif;
+      font-size: 12px;
+      color: rgba(160,169,184,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .footer-links a:hover { color: var(--silver); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .apps-grid { grid-template-columns: 1fr; gap: 1px; }
+      .manifesto-inner { grid-template-columns: 1fr; gap: 40px; }
+      nav { gap: 20px; }
+      .nav-rpc { display: none; }
+      .hero h1 { font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo-mark">
+          <!-- Squircle + R mark SVG -->
+          <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="34" height="34" rx="9" stroke="#A0A9B8" stroke-width="1.25"/>
+            <path d="M11 10h8.2c2.1 0 3.7.5 4.8 1.5 1.1 1 1.65 2.35 1.65 4.05 0 1.25-.3 2.3-.9 3.15-.58.83-1.4 1.42-2.45 1.77L25.8 26H22.4l-3.3-5.3H14v5.3H11V10zm3 2.7v5.3h4.8c1.05 0 1.87-.27 2.45-.8.58-.54.87-1.27.87-2.2 0-.9-.29-1.6-.87-2.1-.58-.5-1.4-.75-2.45-.75H14v.55z" fill="#F4F6F9"/>
+          </svg>
+          <div class="logo-text">
+            <span class="reach">Reach Point</span>
+            <span class="lab">Lab</span>
+          </div>
+        </a>
+        <nav>
+          <a href="#apps">Apps</a>
+          <a href="#about">About</a>
+          <a href="https://reachpointcapital.com" target="_blank" rel="noopener" class="nav-rpc">RPC ↗</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          iOS · HealthKit · Swift
+        </div>
+        <h1>
+          Health,
+          <span class="accent-line">simplified.</span>
+        </h1>
+        <p class="hero-sub">
+          We build free, minimal, beautiful health apps for iPhone. No paywalls. No bloat. No noise — just the clarity your health data deserves.
+        </p>
+        <div class="hero-badges">
+          <span class="badge"><span class="badge-dot"></span>Free to use</span>
+          <span class="badge"><span class="badge-dot"></span>HealthKit native</span>
+          <span class="badge"><span class="badge-dot"></span>No subscription</span>
+          <span class="badge"><span class="badge-dot"></span>Privacy first</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPS -->
+  <section class="apps-section" id="apps">
+    <div class="container">
+      <div class="section-label">Apps</div>
+      <div class="apps-grid">
+
+        <!-- Stool -->
+        <div class="app-card card-stool">
+          <div class="app-number">01</div>
+          <div class="app-icon-wrap">
+            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 4C8.48 4 4 8.48 4 14s4.48 10 10 10 10-4.48 10-10S19.52 4 14 4zm0 2c4.41 0 8 3.59 8 8 0 .55-.06 1.08-.16 1.6C20.4 15.22 18.8 15 17 15c-2.21 0-4 .9-5 2.32C11 16.9 9.21 16 7 16c-1.8 0-3.4.22-4.84.6C2.06 16.08 2 15.55 2 15c0-4.41 3.59-8 8-8h4z" fill="#A0A9B8" opacity=".7"/>
+              <circle cx="10" cy="11" r="1.5" fill="#F4F6F9"/>
+              <circle cx="16" cy="10" r="1.5" fill="#F4F6F9"/>
+            </svg>
+          </div>
+          <div class="app-card-name">Stool</div>
+          <div class="app-card-desc">Gut health tracker. Log digestion, water intake, and bowel patterns with the Bristol Stool Scale — synced to Apple Health.</div>
+          <div class="app-card-footer">
+            <span class="app-status status-live">Live</span>
+          </div>
+        </div>
+
+        <!-- Fast -->
+        <div class="app-card card-fast">
+          <div class="app-number">02</div>
+          <div class="app-icon-wrap">
+            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 3L14 14" stroke="#F0A500" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="14" cy="14" r="9.5" stroke="#F0A500" stroke-width="1.25" opacity=".5"/>
+              <path d="M14 14L20 9" stroke="#F0A500" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+            </svg>
+          </div>
+          <div class="app-card-name">Fast</div>
+          <div class="app-card-desc">Intermittent fasting timer. Six biological fasting phases visualized in real time — from digestion through deep ketosis.</div>
+          <div class="app-card-footer">
+            <span class="app-status status-live">Live</span>
+          </div>
+        </div>
+
+        <!-- Lucid -->
+        <div class="app-card card-lucid">
+          <div class="app-number">03</div>
+          <div class="app-icon-wrap">
+            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 5C9.03 5 5 9.03 5 14s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" stroke="#A0A9B8" stroke-width="1.25" opacity=".4"/>
+              <path d="M14 8c-3.31 0-6 2.69-6 6 0 1.96.94 3.7 2.4 4.8L14 14l3.6 4.8A5.97 5.97 0 0020 14c0-3.31-2.69-6-6-6z" fill="#A0A9B8" opacity=".3"/>
+              <circle cx="14" cy="14" r="2" fill="#C8D0DC"/>
+            </svg>
+          </div>
+          <div class="app-card-name">Lucid</div>
+          <div class="app-card-desc">Coming soon. HealthKit integrated. Reach Point Lab's third release — more details ahead.</div>
+          <div class="app-card-footer">
+            <span class="app-status status-soon">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto" id="about">
+    <div class="container">
+      <div class="manifesto-inner">
+        <div>
+          <div class="section-label">Philosophy</div>
+          <h2 class="manifesto-headline">
+            Your health data<br/>
+            <span class="dim">shouldn't cost you</span><br/>
+            clarity.
+          </h2>
+        </div>
+        <div>
+          <div class="manifesto-body">
+            <p>The best health apps charge you monthly for features you barely use, lock essential insights behind paywalls, and bury the numbers in dashboards designed to keep you subscribed — not informed.</p>
+            <p>Reach Point Lab builds differently. Every app is free at its core, minimal by design, and built natively for iPhone and Apple Watch.</p>
+          </div>
+          <div class="manifesto-pillars">
+            <div class="pillar">
+              <div class="pillar-line"></div>
+              <div class="pillar-text">
+                <strong>Free core, always</strong>
+                <span>No subscription to access your own data.</span>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-line"></div>
+              <div class="pillar-text">
+                <strong>HealthKit native</strong>
+                <span>Syncs with Apple Health on every app, on every platform.</span>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-line"></div>
+              <div class="pillar-text">
+                <strong>Minimal by design</strong>
+                <span>One job per app. Done well.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          Reach Point Lab is a division of <a href="https://reachpointcapital.com" target="_blank" rel="noopener">Reach Point Capital LLC</a>.<br/>
+          Westport, CT · <a href="mailto:info@reachpointcapital.com">info@reachpointcapital.com</a>
+        </div>
+        <div class="footer-links">
+          <a href="/privacy/stool">Stool Privacy</a>
+          <a href="/privacy/fast">Fast Privacy</a>
+          <a href="/privacy/lucid">Lucid Privacy</a>
+          <a href="https://reachpointcapital.com" target="_blank" rel="noopener">Reach Point Capital ↗</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
