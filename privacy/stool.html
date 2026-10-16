@@ -1,137 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stool — Privacy Policy | Reach Point Lab</title>
   <meta name="robots" content="noindex" />
+  <!-- shared:start -->
+  <meta name="theme-color" content="#07111F" />
+  <script>
+    (function () {
+      var root = document.documentElement;
+      try { var t = localStorage.getItem('rpc-theme'); if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); } catch (e) {}
+      root.classList.add('js');
+      // failsafe: if site.js never runs, stop hiding the scroll-reveal content
+      setTimeout(function () { if (!window.__rpc) root.classList.remove('js'); }, 4000);
+    })();
+  </script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='8.5' fill='%231B3A6B'/%3E%3Cpath d='M9.5 9h7.8c2 0 3.55.48 4.6 1.42 1.05.94 1.57 2.24 1.57 3.87 0 1.18-.28 2.18-.86 3-.56.8-1.34 1.36-2.34 1.7L23.9 25h-3.2l-3.15-5.07H12.3V25H9.5V9zm2.8 2.58V17.5h4.6c1 0 1.78-.26 2.34-.76.56-.52.83-1.22.83-2.1 0-.86-.27-1.53-.83-2.02-.56-.5-1.34-.74-2.34-.74h-4.6v-.7z' fill='%23F4F6F9'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --navy: #1B3A6B;
-      --ink: #07111F;
-      --silver: #A0A9B8;
-      --silver-light: #C8D0DC;
-      --white: #F4F6F9;
-    }
-    body {
-      background: var(--ink);
-      color: var(--white);
-      font-family: 'Epilogue', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--silver-light); text-decoration: underline; text-underline-offset: 3px; }
-    a:hover { color: var(--white); }
-
-    header {
-      border-bottom: 1px solid rgba(160,169,184,0.1);
-      padding: 24px 0;
-    }
-    .container { max-width: 760px; margin: 0 auto; padding: 0 32px; }
-    .header-inner { display: flex; align-items: center; justify-content: space-between; }
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--silver);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: var(--white); }
-    .header-brand {
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(160,169,184,0.5);
-    }
-
-    main { padding: 80px 0 120px; }
-
-    .policy-eyebrow {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--silver);
-      margin-bottom: 20px;
-    }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--white);
-      margin-bottom: 12px;
-    }
-    .policy-meta {
-      font-size: 13px;
-      color: rgba(160,169,184,0.5);
-      margin-bottom: 60px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid rgba(160,169,184,0.1);
-    }
-
-    h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      color: var(--white);
-      margin: 48px 0 14px;
-    }
-    p { font-size: 15px; color: var(--silver); margin-bottom: 16px; }
-    ul { padding-left: 20px; margin-bottom: 16px; }
-    ul li { font-size: 15px; color: var(--silver); margin-bottom: 6px; }
-    strong { color: var(--silver-light); font-weight: 500; }
-
-    .callout {
-      background: rgba(27,58,107,0.15);
-      border: 1px solid rgba(160,169,184,0.12);
-      border-left: 3px solid rgba(160,169,184,0.3);
-      padding: 20px 24px;
-      border-radius: 0 8px 8px 0;
-      margin: 32px 0;
-    }
-    .callout p { margin: 0; font-size: 14px; }
-
-    footer {
-      border-top: 1px solid rgba(160,169,184,0.1);
-      padding: 32px 0;
-    }
-    .footer-text {
-      font-size: 12px;
-      color: rgba(160,169,184,0.35);
-      text-align: center;
-    }
-    .footer-text a { color: rgba(160,169,184,0.45); }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Epilogue:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/site.css" />
+  <!-- shared:end -->
 </head>
 <body>
-  <header>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <!-- bg:start -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <canvas id="arc" aria-hidden="true"></canvas>
+  <!-- bg:end -->
+  <header id="site-header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="back-link">← Reach Point Lab</a>
-        <span class="header-brand">Privacy Policy</span>
+
+        <a href="/" class="logo" aria-label="Reach Point Lab — home">
+          <svg class="logo-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="0.625" y="0.625" width="32.75" height="32.75" rx="8.375" stroke="#A0A9B8" stroke-width="1.25"/>
+            <path d="M9.5 9h7.8c2 0 3.55.48 4.6 1.42 1.05.94 1.57 2.24 1.57 3.87 0 1.18-.28 2.18-.86 3-.56.8-1.34 1.36-2.34 1.7L23.9 25h-3.2l-3.15-5.07H12.3V25H9.5V9zm2.8 2.58V17.5h4.6c1 0 1.78-.26 2.34-.76.56-.52.83-1.22.83-2.1 0-.86-.27-1.53-.83-2.02-.56-.5-1.34-.74-2.34-.74h-4.6v-.7z" fill="currentColor" style="color: var(--text-1)"/>
+          </svg>
+          <div class="logo-text">
+            <span class="rpc-name">Reach Point</span>
+            <span class="rpc-sub">Lab</span>
+          </div>
+        </a>
+
+        <nav aria-label="Primary">
+          <a href="/#apps" class="nav-link">Apps</a>
+          <a href="/#about" class="nav-link">About</a>
+          <a href="https://reachpointcapital.com/newsroom/" class="nav-link" target="_blank" rel="noopener">Newsroom ↗</a>
+
+          <div class="nav-right">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">
+              <!-- Sun icon (shown in dark mode) -->
+              <svg id="icon-sun" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="7.5" cy="7.5" r="2.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3.05 3.05l1.06 1.06M10.89 10.89l1.06 1.06M10.89 4.11l-1.06 1.06M4.11 10.89L3.05 11.95" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              <!-- Moon icon (shown in light mode) -->
+              <svg id="icon-moon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M7.5 1.5A6 6 0 1 0 13.5 7.5 4.5 4.5 0 0 1 7.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <a href="https://reachpointcapital.com" class="contact-btn" target="_blank" rel="noopener">Reach Point Capital ↗</a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu-inner">
+        <div class="mm-group-label">Reach Point Lab</div>
+        <a href="/#apps" class="mm-link">Apps</a>
+        <a href="/#about" class="mm-link">About</a>
+        <div class="mm-group-label">Reach Point Capital</div>
+        <a href="https://reachpointcapital.com/newsroom/" target="_blank" rel="noopener" class="mm-link">Newsroom ↗</a>
+        <a href="https://reachpointcapital.com" target="_blank" rel="noopener" class="mm-link">Reach Point Capital ↗</a>
+        <a href="mailto:info@reachpointcapital.com" class="mm-cta">Contact</a>
       </div>
     </div>
   </header>
-
-  <main>
-    <div class="container">
+  <main id="main">
+    <article class="policy">
+      <div class="container container--narrow">
+        <a class="back-link" href="/"><span aria-hidden="true">←</span> Reach Point Lab</a>
       <div class="policy-eyebrow">Stool · Gut Health Tracker</div>
       <h1>Privacy Policy</h1>
       <p class="policy-meta">Last updated: March 2025 &nbsp;·&nbsp; Reach Point Lab, a division of Reach Point Capital LLC</p>
@@ -184,13 +139,45 @@
       <p><strong>Reach Point Lab / Reach Point Capital LLC</strong><br/>
       Westport, CT<br/>
       <a href="mailto:info@reachpointcapital.com">info@reachpointcapital.com</a></p>
-    </div>
+      </div>
+    </article>
   </main>
-
   <footer>
     <div class="container">
-      <p class="footer-text">© 2025 Reach Point Capital LLC · <a href="/">Reach Point Lab</a> · <a href="https://reachpointcapital.com">Reach Point Capital</a></p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo" aria-label="Reach Point Lab — home">
+            <svg class="logo-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="0.625" y="0.625" width="32.75" height="32.75" rx="8.375" stroke="#A0A9B8" stroke-width="1.25"/>
+              <path d="M9.5 9h7.8c2 0 3.55.48 4.6 1.42 1.05.94 1.57 2.24 1.57 3.87 0 1.18-.28 2.18-.86 3-.56.8-1.34 1.36-2.34 1.7L23.9 25h-3.2l-3.15-5.07H12.3V25H9.5V9zm2.8 2.58V17.5h4.6c1 0 1.78-.26 2.34-.76.56-.52.83-1.22.83-2.1 0-.86-.27-1.53-.83-2.02-.56-.5-1.34-.74-2.34-.74h-4.6v-.7z" fill="currentColor" style="color: var(--text-1)"/>
+            </svg>
+            <div class="logo-text">
+              <span class="rpc-name">Reach Point</span>
+              <span class="rpc-sub">Lab</span>
+            </div>
+          </a>
+          <p>Free, minimal, beautiful health apps for iPhone. Reach Point Lab is a division of Reach Point Capital LLC.</p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Privacy</div>
+          <a href="/privacy/stool">Stool privacy</a>
+          <a href="/privacy/fast">Fast privacy</a>
+          <a href="/privacy/lucid">Lucid privacy</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Reach Point Capital</div>
+          <a href="https://reachpointcapital.com" target="_blank" rel="noopener">Reach Point Capital ↗</a>
+          <a href="https://reachpointcapital.com/newsroom/" target="_blank" rel="noopener">Newsroom ↗</a>
+          <a href="mailto:info@reachpointcapital.com">Contact</a>
+        </div>
+      </div>
+      <div class="footer-base">
+        <span>Reach Point Lab is a division of <a href="https://reachpointcapital.com" target="_blank" rel="noopener">Reach Point Capital LLC</a> &nbsp;·&nbsp; Westport, CT</span>
+        <a href="mailto:info@reachpointcapital.com">info@reachpointcapital.com</a>
+      </div>
     </div>
   </footer>
+  <script src="/assets/site.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
