@@ -1,0 +1,14 @@
+{
+  "name": "Reach Point Lab",
+  "short_name": "Reach Point Lab",
+  "description": "Free, minimal, beautiful health apps for iOS.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#07111F",
+  "theme_color": "#07111F",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
